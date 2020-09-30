@@ -904,10 +904,17 @@ OuterDecoLevel.prototype = Object.create(null)
 
 const noDeco = [new OuterDecoLevel]
 
+function compareOuterDeco(a, b) {
+  // This is reverse order, to match the way they're built up as an onion.
+  return a.spec.sortKey < b.spec.sortKey ? 1 : a.spec.sortKey > b.spec.sortKey ? -1 : 0
+}
+
 function computeOuterDeco(outerDeco, node, needsWrap) {
   if (outerDeco.length == 0) return noDeco
 
   let top = needsWrap ? noDeco[0] : new OuterDecoLevel, result = [top]
+
+  outerDeco = outerDeco.length > 1 ? outerDeco.concat().sort(compareOuterDeco) : outerDeco
 
   for (let i = 0; i < outerDeco.length; i++) {
     let attrs = outerDeco[i].type.attrs
