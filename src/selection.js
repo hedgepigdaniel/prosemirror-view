@@ -35,7 +35,7 @@ export function selectionToDOM(view, force) {
   let sel = view.state.selection
   syncNodeSelection(view, sel)
 
-  if (view.editable ? !view.hasFocus() :
+  if (!view.editable &&
       !(hasSelection(view) && document.activeElement && document.activeElement.contains(view.dom))) return
 
   view.domObserver.disconnectSelection()
